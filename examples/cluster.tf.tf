@@ -1,9 +1,9 @@
 module "pwp-edge01" {
-    source = "../../modules/edge"
+    source = "spectrocloud/edge/palette"
     # Store Number/Location
     name = "pwp-edge"
     cluster_tags = [
-        # "vip:10.239.10.10"
+        "vip:10.239.10.10"
     ]
     node_labels = {
         location = "pittsburgh"
