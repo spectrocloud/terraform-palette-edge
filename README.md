@@ -20,7 +20,7 @@ It is referencing a config file located in the config directory which is definin
 
 ```
 module "pwp-edge01" {
-    source = "../../modules/edge"
+    source = "spectrocloud/edge/palette"
     # Store Number/Location
     name = "pwp-edge"
     cluster_tags = [
