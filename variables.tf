@@ -1,4 +1,5 @@
 variable "edge_server" {
+  description = "Values for the attributes of the edge server."
   type = list(object({
     name          = string
     uuid          = string
@@ -12,14 +13,16 @@ variable "cluster_tags" {
 }
 variable "node_labels" {
   type        = map(string)
-  description = "A map of labels to use on all nodes"
+  description = "A map of labels to use on all nodes."
   default     = {}
 
 }
 variable "name" {
-  type = string
+  type        = string
+  description = "Name of the cluster to be created."
 }
 variable "cluster_profiles" {
+  description = "Values for the profile(s) to be used for cluster creation."
   type = list(object({
     name = string
     tag  = optional(string)
