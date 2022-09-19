@@ -3,7 +3,7 @@ variable "edge_server" {
   type = list(object({
     name          = string
     uuid          = string
-    control_plane = bool
+    control_plane = optional(bool)
   }))
 }
 variable "cluster_tags" {

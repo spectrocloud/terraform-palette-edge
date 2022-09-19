@@ -1,5 +1,5 @@
 module "pwp-edge01" {
-  source = "spectrocloud/edge/palette"
+  source = "spectrocloud/edge/spectrocloud"
   # Store Number/Location
   name = "pwp-edge"
   cluster_tags = [

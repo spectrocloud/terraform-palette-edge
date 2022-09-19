@@ -20,7 +20,7 @@ It is referencing a config file located in the config directory which is definin
 
 ```
 module "pwp-edge01" {
-    source = "spectrocloud/edge/palette"
+    source = "spectrocloud/edge/spectrocloud"
     # Store Number/Location
     name = "pwp-edge"
     cluster_tags = [
@@ -95,7 +95,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_cluster_profiles"></a> [cluster\_profiles](#input\_cluster\_profiles) | Values for the profile(s) to be used for cluster creation. | <pre>list(object({<br>    name = string<br>    tag  = optional(string)<br>    packs = optional(list(object({<br>      name   = string<br>      tag    = string<br>      values = optional(string)<br>      manifest = optional(list(object({<br>        name    = string<br>        tag     = string<br>        content = string<br>      })))<br>    })))<br>  }))</pre> | n/a | yes |
 | <a name="input_cluster_tags"></a> [cluster\_tags](#input\_cluster\_tags) | Tags to be added to the profile.  key:value | `list(string)` | `[]` | no |
-| <a name="input_edge_server"></a> [edge\_server](#input\_edge\_server) | Values for the attributes of the edge server. | <pre>list(object({<br>    name          = string<br>    uuid          = string<br>    control_plane = bool<br>  }))</pre> | n/a | yes |
+| <a name="input_edge_server"></a> [edge\_server](#input\_edge\_server) | Values for the attributes of the edge server. | <pre>list(object({<br>    name          = string<br>    uuid          = string<br>    control_plane = optional(bool)<br>  }))</pre> | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the cluster to be created. | `string` | n/a | yes |
 | <a name="input_node_labels"></a> [node\_labels](#input\_node\_labels) | A map of labels to use on all nodes. | `map(string)` | `{}` | no |
 
