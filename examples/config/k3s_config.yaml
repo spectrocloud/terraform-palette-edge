@@ -1,8 +1,0 @@
-pack:
-  spectrocloud.com/install-priority: "0"
-k3sconfig:
- disable:
-   - metrics-server
-   - traefik
-#  service-cidr: "10.40.0.0/16"
-#  cluster-cidr: "10.45.0.0/16"

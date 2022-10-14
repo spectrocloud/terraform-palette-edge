@@ -27,13 +27,6 @@ module "pwp-edge01" {
     {
       name = "opensuse-k3s"
       tag  = "1.23.0-beta1"
-      # packs = [
-      #   {
-      #     name   = "prod-ubuntu-k3s"
-      #     tag    = "1.21.12-k3s0"
-      #     values = file(local.value_files["k3s_config"].location)
-      #   }
-      # ]
     }
   ]
 }
