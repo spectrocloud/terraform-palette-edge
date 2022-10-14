@@ -1,10 +1,13 @@
 variable "edge_server" {
-  description = "Values for the attributes of the edge server."
+  description = "Values for the attributes of the Control Plane Nodes."
   type = list(object({
-    name          = string
-    uuid          = string
-    control_plane = optional(bool)
+    name = string
+    uuid = string
   }))
+}
+variable "node_prefix" {
+  type    = string
+  default = ""
 }
 variable "cluster_tags" {
   type        = list(string)
@@ -37,4 +40,25 @@ variable "cluster_profiles" {
       })))
     })))
   }))
+}
+variable "cluster_vip" {
+  type    = string
+  default = "10.0.0.0/16"
+
+  validation {
+    condition     = can(cidrhost(var.cluster_vip, 32))
+    error_message = "Must be valid IPv4 CIDR."
+  }
+}
+variable "ssh_keys" {
+  type    = string
+  default = ""
+}
+variable "ntp_servers" {
+  type    = list(string)
+  default = []
+}
+variable "skip_wait_for_completion" {
+  type    = bool
+  default = true
 }

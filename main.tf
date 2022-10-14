@@ -6,23 +6,34 @@ data "spectrocloud_cluster_profile" "this" {
   version = each.value["tag"]
 }
 
+
 resource "spectrocloud_appliance" "this" {
   for_each = { for server in var.edge_server : server.name => server }
-  uid      = lower("edge-${each.value.uuid}")
+  uid      = lower(each.value.uuid)
 
   labels = merge(
-    { "cluster" = spectrocloud_cluster_import.this.id },
     { "name" = each.value.name },
-    { "k8s-node-type" = each.value.control_plane == true ? "control-plane" : "worker" },
     var.node_labels
   )
   wait = false
 }
+resource "spectrocloud_cluster_edge_native" "this" {
+  name            = var.name
+  tags            = var.cluster_tags
+  skip_completion = var.skip_wait_for_completion
+  cloud_config {
+    ssh_key     = var.ssh_keys
+    vip         = var.cluster_vip
+    ntp_servers = var.ntp_servers
+  }
+  machine_pool {
+    control_plane           = true
+    control_plane_as_worker = true
+    name                    = "master-pool"
+    count                   = 1
 
-resource "spectrocloud_cluster_import" "this" {
-  name  = var.name
-  cloud = "generic"
-  tags  = var.cluster_tags
+    host_uids = values(spectrocloud_appliance.this)[*].uid
+  }
 
   dynamic "cluster_profile" {
 
