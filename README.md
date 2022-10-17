@@ -96,9 +96,8 @@ No modules.
 | <a name="input_cluster_profiles"></a> [cluster\_profiles](#input\_cluster\_profiles) | Values for the profile(s) to be used for cluster creation. | <pre>list(object({<br>    name = string<br>    tag  = optional(string)<br>    packs = optional(list(object({<br>      name   = string<br>      tag    = string<br>      values = optional(string)<br>      manifest = optional(list(object({<br>        name    = string<br>        tag     = string<br>        content = string<br>      })))<br>    })))<br>  }))</pre> | n/a | yes |
 | <a name="input_cluster_tags"></a> [cluster\_tags](#input\_cluster\_tags) | Tags to be added to the profile.  key:value | `list(string)` | `[]` | no |
 | <a name="input_cluster_vip"></a> [cluster\_vip](#input\_cluster\_vip) | n/a | `string` | `"10.0.0.0/16"` | no |
-| <a name="input_edge_server"></a> [edge\_server](#input\_edge\_server) | Values for the attributes of the Control Plane Nodes. | <pre>list(object({<br>    name = string<br>    uuid = string<br>  }))</pre> | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the cluster to be created. | `string` | n/a | yes |
-| <a name="input_node_labels"></a> [node\_labels](#input\_node\_labels) | A map of labels to use on all nodes. | `map(string)` | `{}` | no |
+| <a name="input_node_pools"></a> [node\_pools](#input\_node\_pools) | Values for the attributes of the Control Plane Nodes. | <pre>list(object({<br>    name          = string<br>    labels        = optional(map(string))<br>    control_plane = bool<br>    nodes = list(object({<br>      uid    = string<br>      labels = optional(map(string))<br>    }))<br>  }))</pre> | n/a | yes |
 | <a name="input_node_prefix"></a> [node\_prefix](#input\_node\_prefix) | n/a | `string` | `""` | no |
 | <a name="input_ntp_servers"></a> [ntp\_servers](#input\_ntp\_servers) | n/a | `list(string)` | `[]` | no |
 | <a name="input_skip_wait_for_completion"></a> [skip\_wait\_for\_completion](#input\_skip\_wait\_for\_completion) | n/a | `bool` | `true` | no |

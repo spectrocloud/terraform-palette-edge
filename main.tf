@@ -5,19 +5,25 @@ data "spectrocloud_cluster_profile" "this" {
   name    = each.key
   version = each.value["tag"]
 }
-
-
+locals {
+  nodes = { for v in flatten([
+    for node_pool in var.node_pools : [
+      for node in try(node_pool.nodes, []) : {
+        name  = node.uid
+        value = try(node.labels, {})
+      }
+    ]
+    ]) : v.name => v.value
+  }
+}
 resource "spectrocloud_appliance" "this" {
-  for_each = { for server in var.edge_server : server.name => server }
-  uid      = lower(each.value.uuid)
-
-  labels = merge(
-    { "name" = each.value.name },
-    var.node_labels
-  )
-  wait = false
+  for_each = { for k, v in local.nodes : k => v }
+  uid      = lower(each.key)
+  labels   = each.value
+  wait     = false
 }
 resource "spectrocloud_cluster_edge_native" "this" {
+  depends_on      = [spectrocloud_appliance.this]
   name            = var.name
   tags            = var.cluster_tags
   skip_completion = var.skip_wait_for_completion
@@ -26,38 +32,26 @@ resource "spectrocloud_cluster_edge_native" "this" {
     vip         = var.cluster_vip
     ntp_servers = var.ntp_servers
   }
-  machine_pool {
-    control_plane           = true
-    control_plane_as_worker = true
-    name                    = "master-pool"
-    count                   = 1
-
-    host_uids = values(spectrocloud_appliance.this)[*].uid
+  dynamic "machine_pool" {
+    for_each = var.node_pools
+    content {
+      name                    = machine_pool.value.name
+      control_plane           = machine_pool.value.control_plane
+      control_plane_as_worker = machine_pool.value.control_plane == true ? true : false
+      additional_labels       = machine_pool.value.labels
+      host_uids               = machine_pool.value.nodes[*].uid
+    }
   }
-
   dynamic "cluster_profile" {
-
     for_each = var.cluster_profiles
     content {
       id = data.spectrocloud_cluster_profile.this[cluster_profile.value.name].id
-
       dynamic "pack" {
         for_each = cluster_profile.value.packs == null ? [] : cluster_profile.value.packs
-
         content {
           name   = pack.value.name
           tag    = pack.value.tag
           values = pack.value.values
-
-          # dynamic "manifest" {
-          #   for_each = pack.value.manifest== null ? [] : pack.value.manifest
-
-          #   content {
-          #   name    = manifest.value.name
-          #   tag = manifest.value.tag
-          #   content = manifest.value.content
-          #   }
-          # }
         }
       }
     }

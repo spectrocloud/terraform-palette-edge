@@ -1,8 +1,13 @@
-variable "edge_server" {
+variable "node_pools" {
   description = "Values for the attributes of the Control Plane Nodes."
   type = list(object({
-    name = string
-    uuid = string
+    name          = string
+    labels        = optional(map(string))
+    control_plane = bool
+    nodes = list(object({
+      uid    = string
+      labels = optional(map(string))
+    }))
   }))
 }
 variable "node_prefix" {
@@ -13,12 +18,6 @@ variable "cluster_tags" {
   type        = list(string)
   description = "Tags to be added to the profile.  key:value"
   default     = []
-}
-variable "node_labels" {
-  type        = map(string)
-  description = "A map of labels to use on all nodes."
-  default     = {}
-
 }
 variable "name" {
   type        = string
