@@ -71,7 +71,7 @@ module "pwp-edge01" {
   # Profiles to be added
   cluster_profiles = [
     {
-      name = "opensuse-k3s"
+      name = "ubuntu-k3s"
       tag  = "1.23.0-beta1"
     }
   ]
