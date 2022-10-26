@@ -44,10 +44,10 @@ variable "cluster_vip" {
   type    = string
   default = "10.0.0.0/16"
 
-  validation {
-    condition     = can(cidrhost(var.cluster_vip, 32))
-    error_message = "Must be valid IPv4 CIDR."
-  }
+  # validation {
+  #   condition     = can(cidrhost(var.cluster_vip, 32))
+  #   error_message = "Must be valid IPv4 CIDR."
+  # }
 }
 variable "ssh_keys" {
   type    = string
