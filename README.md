@@ -25,18 +25,10 @@ Additionally, with the "VIP" tag, we enable Kubevip for HA.  The uid referenced 
 
 The physical device in this description represents Small Form Factor appliances such as Intel NUCs and the like.
 
-<div id="image-table">
-    <table>
-	    <tr>
-    	    <td style="padding:10px">
-        	    <img src="https://github.com/spectrocloud/terraform-spectrocloud-edge/blob/v1.1.0-pre/images/qrcode.png" width="550"/>
-      	    </td>
-            <td style="padding:10px">
-            	<img src="https://github.com/spectrocloud/terraform-spectrocloud-edge/blob/v1.1.0-pre/images/uid_copy.png" width="500"/>
-            </td>
-        </tr>
-    </table>
-</div>
+| QR Code  | UID Copy |
+| --------|--------- |
+![QRCode](images/qrcode.png) | ![UID Copy](images/uid_copy.png)
+
 
 ```
 module "edge-example-module" {
