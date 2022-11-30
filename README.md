@@ -25,9 +25,10 @@ Additionally, with the "VIP" tag, we enable Kubevip for HA.  The uid referenced 
 
 ```
 module "edge-example-module" {
-  source = "spectrocloud/edge/spectrocloud"
+  source  = "spectrocloud/edge/spectrocloud"
+  version = "1.1.0-pre"
   # Store Number/Location
-  name         = "edge-example"
+  name = "edge-example"
   # add tags to the cluster (optional) list(strings)
   cluster_tags = []
 
@@ -56,7 +57,7 @@ module "edge-example-module" {
         {
           uid = "4444"
           labels = {
-            name     = "test4444",
+            name = "test4444",
           }
         }
       ]
@@ -89,7 +90,7 @@ module "edge-example-module" {
   ]
   # Cluster Geolocation (Optional)
   location = {
-    latitude = 33.776272
+    latitude  = 33.776272
     longitude = -96.796856
   }
 }

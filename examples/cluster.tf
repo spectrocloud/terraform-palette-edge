@@ -68,4 +68,3 @@ module "edge-example-module" {
     longitude = -96.796856
   }
 }
-
