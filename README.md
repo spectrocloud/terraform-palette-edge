@@ -19,9 +19,24 @@ Module Version |  Required Terraform Version
 
 See the [Examples](https://github.com/spectrocloud/terraform-palette-edge/tree/main/examples) for usage of this module.  This module is written for the Edge Native Deployment option.
 
-This is a sample "main.tf" file.  In this example, we are creating a 3-node Ubuntu-K3s 1.21 cluster.  This cluster has a basic profile for the operating system and the k3s configuration.
+This is a sample "main.tf" file.  In this example, we are creating a 3-node Ubuntu-PXKE 1.24 cluster.  This cluster has a basic profile for the Ubuntu Operating System, PXK-E (Palette Optimized Kubernetes for the Edge), and a CNI.
 
-Additionally, with the "VIP" tag, we enable Kubevip for HA.  The uid referenced is the last 12 characters of the uid.  In the case of physical hardware, the uid is often set as the mac address of the ethernet adapter on the motherboard without ":".  The physical device in this description represents Small Form Factor appliances such as Intel NUCs and the like.
+Additionally, with the "VIP" tag, we enable Kubevip for HA.  The uid referenced is the hardware UID of the device.  This applies to virtual machines as well.  For ease of use, we have provided a QRCode giving you the ability to easily copy the UID of the device.  
+
+The physical device in this description represents Small Form Factor appliances such as Intel NUCs and the like.
+
+<div id="image-table">
+    <table>
+	    <tr>
+    	    <td style="padding:10px">
+        	    <img src="./images/qrcode.png" width="550"/>
+      	    </td>
+            <td style="padding:10px">
+            	<img src="./images/uid_copy.png" width="500"/>
+            </td>
+        </tr>
+    </table>
+</div>
 
 ```
 module "edge-example-module" {
