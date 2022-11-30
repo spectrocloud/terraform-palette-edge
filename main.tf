@@ -32,6 +32,10 @@ resource "spectrocloud_cluster_edge_native" "this" {
     vip         = var.cluster_vip
     ntp_servers = var.ntp_servers
   }
+  location_config {
+    latitude  = var.location.latitude
+    longitude = var.location.longitude
+  }
   dynamic "machine_pool" {
     for_each = var.node_pools
     content {

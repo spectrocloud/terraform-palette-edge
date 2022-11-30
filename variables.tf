@@ -41,13 +41,8 @@ variable "cluster_profiles" {
   }))
 }
 variable "cluster_vip" {
-  type    = string
-  default = "10.0.0.0/16"
-
-  # validation {
-  #   condition     = can(cidrhost(var.cluster_vip, 32))
-  #   error_message = "Must be valid IPv4 CIDR."
-  # }
+  type        = string
+  description = "IP Address for Cluster VIP for HA.  Must be unused on on the same layer 2 segment as the node IPs."
 }
 variable "ssh_keys" {
   type    = string
@@ -60,4 +55,15 @@ variable "ntp_servers" {
 variable "skip_wait_for_completion" {
   type    = bool
   default = true
+}
+variable "location" {
+  type = object({
+    latitude  = optional(number)
+    longitude = optional(number)
+  })
+  default = {
+    latitude  = 0
+    longitude = 0
+  }
+  description = "Optional - If used Latitude and Longitude represent the coordinates of the location you wish to assign to the cluster.  https://www.latlong.net/ is one tool that can be used to find this."
 }

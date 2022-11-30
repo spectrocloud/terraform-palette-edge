@@ -12,6 +12,11 @@ Addon profiles that will be used for the cluster creation have already been defi
 
 ## Usage
 
+Module Version |  Required Terraform Version
+---------------|----------------------------
+  <= 1.0.0     |        <= 1.2.9
+  \> 1.1.0     |        >= 1.3.0
+
 See the [Examples](https://github.com/spectrocloud/terraform-palette-edge/tree/main/examples) for usage of this module.  This module is written for the Edge Native Deployment option.
 
 This is a sample "main.tf" file.  In this example, we are creating a 3-node Ubuntu-K3s 1.21 cluster.  This cluster has a basic profile for the operating system and the k3s configuration.
@@ -19,14 +24,21 @@ This is a sample "main.tf" file.  In this example, we are creating a 3-node Ubun
 Additionally, with the "VIP" tag, we enable Kubevip for HA.  The uid referenced is the last 12 characters of the uid.  In the case of physical hardware, the uid is often set as the mac address of the ethernet adapter on the motherboard without ":".  The physical device in this description represents Small Form Factor appliances such as Intel NUCs and the like.
 
 ```
-module "pwp-edge01" {
+module "edge-example-module" {
   source = "spectrocloud/edge/spectrocloud"
   # Store Number/Location
-  name         = "pwp-edge"
+  name         = "edge-example"
+  # add tags to the cluster (optional) list(strings)
   cluster_tags = []
+
+  # Cluster VIP to be used with KubeVIP
+  cluster_vip = "10.1.1.1"
+
+  # Node Pools for Cluster
   node_pools = [
+    # Control Plane Node Pool
     {
-      name          = "control_plane"
+      name          = "control-plane"
       control_plane = true
       nodes = [
         {
@@ -45,11 +57,11 @@ module "pwp-edge01" {
           uid = "4444"
           labels = {
             name     = "test4444",
-            location = "texas"
           }
         }
       ]
     },
+    # Add additional node pools
     {
       name          = "gpu"
       control_plane = false
@@ -58,9 +70,9 @@ module "pwp-edge01" {
       }
       nodes = [
         {
-          uid = "6666"
+          uid = "7777"
           labels = {
-            name = "test6666"
+            name = "test7777-gpu"
           }
         }
       ]
@@ -68,13 +80,18 @@ module "pwp-edge01" {
 
   ]
 
-  # Profiles to be added
+  # Profiles to be added Profile should be an Edge-Native Infra or Full Profile with the OS, Kubernetes Distribution and CNI of choice
   cluster_profiles = [
     {
-      name = "ubuntu-k3s"
-      tag  = "1.23.0-beta1"
+      name = "ubuntu-pxke"
+      tag  = "1.24.6"
     }
   ]
+  # Cluster Geolocation (Optional)
+  location = {
+    latitude = 33.776272
+    longitude = -96.796856
+  }
 }
 ```
 
@@ -83,13 +100,14 @@ module "pwp-edge01" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | >= 0.10.1 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
+| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | >= 0.10.8-pre |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | >= 0.10.1 |
+| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | >= 0.10.8-pre |
 
 ## Modules
 
@@ -109,7 +127,8 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_cluster_profiles"></a> [cluster\_profiles](#input\_cluster\_profiles) | Values for the profile(s) to be used for cluster creation. | <pre>list(object({<br>    name = string<br>    tag  = optional(string)<br>    packs = optional(list(object({<br>      name   = string<br>      tag    = string<br>      values = optional(string)<br>      manifest = optional(list(object({<br>        name    = string<br>        tag     = string<br>        content = string<br>      })))<br>    })))<br>  }))</pre> | n/a | yes |
 | <a name="input_cluster_tags"></a> [cluster\_tags](#input\_cluster\_tags) | Tags to be added to the profile.  key:value | `list(string)` | `[]` | no |
-| <a name="input_cluster_vip"></a> [cluster\_vip](#input\_cluster\_vip) | n/a | `string` | `"10.0.0.0/16"` | no |
+| <a name="input_cluster_vip"></a> [cluster\_vip](#input\_cluster\_vip) | IP Address for Cluster VIP for HA.  Must be unused on on the same layer 2 segment as the node IPs. | `string` | n/a | yes |
+| <a name="input_location"></a> [location](#input\_location) | Optional - If used Latitude and Longitude represent the coordinates of the location you wish to assign to the cluster.  https://www.latlong.net/ is one tool that can be used to find this. | <pre>object({<br>    latitude  = optional(number)<br>    longitude = optional(number)<br>  })</pre> | <pre>{<br>  "latitude": 0,<br>  "longitude": 0<br>}</pre> | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the cluster to be created. | `string` | n/a | yes |
 | <a name="input_node_pools"></a> [node\_pools](#input\_node\_pools) | Values for the attributes of the Control Plane Nodes. | <pre>list(object({<br>    name          = string<br>    labels        = optional(map(string))<br>    control_plane = bool<br>    nodes = list(object({<br>      uid    = string<br>      labels = optional(map(string))<br>    }))<br>  }))</pre> | n/a | yes |
 | <a name="input_node_prefix"></a> [node\_prefix](#input\_node\_prefix) | n/a | `string` | `""` | no |
