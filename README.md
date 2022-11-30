@@ -29,10 +29,10 @@ The physical device in this description represents Small Form Factor appliances 
     <table>
 	    <tr>
     	    <td style="padding:10px">
-        	    <img src="./images/qrcode.png" width="550"/>
+        	    <img src="https://github.com/spectrocloud/terraform-spectrocloud-edge/blob/v1.1.0-pre/images/qrcode.png" width="550"/>
       	    </td>
             <td style="padding:10px">
-            	<img src="./images/uid_copy.png" width="500"/>
+            	<img src="https://github.com/spectrocloud/terraform-spectrocloud-edge/blob/v1.1.0-pre/images/uid_copy.png" width="500"/>
             </td>
         </tr>
     </table>
