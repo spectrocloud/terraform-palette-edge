@@ -15,7 +15,7 @@ Addon profiles that will be used for the cluster creation have already been defi
 Module Version |  Required Terraform Version
 ---------------|----------------------------
   <= 1.0.0     |        <= 1.2.9
-  \> 1.1.0     |        >= 1.3.0
+  \>= 1.1.0     |        >= 1.3.0
 
 See the [Examples](https://github.com/spectrocloud/terraform-palette-edge/tree/main/examples) for usage of this module.  This module is written for the Edge Native Deployment option.
 
