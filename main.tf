@@ -4,26 +4,14 @@ data "spectrocloud_cluster_profile" "this" {
   }
   name    = each.key
   version = each.value["tag"]
+  context = each.value["context"]
 }
-locals {
-  nodes = { for v in flatten([
-    for node_pool in var.node_pools : [
-      for node in try(node_pool.nodes, []) : {
-        name  = node.uid
-        value = try(node.labels, {})
-      }
-    ]
-    ]) : v.name => v.value
-  }
-}
-resource "spectrocloud_appliance" "this" {
-  for_each = { for k, v in local.nodes : k => v }
-  uid      = lower(each.key)
-  labels   = each.value
-  wait     = false
+
+data "spectrocloud_appliances" "this" {
+  for_each = { for pool in var.node_pools : pool.name => pool }
+  tags     = each.value["edge_host_tags"]
 }
 resource "spectrocloud_cluster_edge_native" "this" {
-  depends_on      = [spectrocloud_appliance.this]
   name            = var.name
   tags            = var.cluster_tags
   skip_completion = var.skip_wait_for_completion
@@ -42,8 +30,8 @@ resource "spectrocloud_cluster_edge_native" "this" {
       name                    = machine_pool.value.name
       control_plane           = machine_pool.value.control_plane
       control_plane_as_worker = machine_pool.value.control_plane == true ? true : false
-      additional_labels       = machine_pool.value.labels
-      host_uids               = machine_pool.value.nodes[*].uid
+      additional_labels       = machine_pool.value.pool_labels
+      host_uids               = data.spectrocloud_appliances.this[machine_pool.value.name].ids
     }
   }
   dynamic "cluster_profile" {

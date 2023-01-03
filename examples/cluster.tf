@@ -1,13 +1,13 @@
-module "edge-example-module" {
+module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.1.0-pre"
+  version = "1.1.0"
   # Store Number/Location
-  name = "edge-example"
+  name = "demo"
   # add tags to the cluster (optional) list(strings)
-  cluster_tags = []
+  cluster_tags = ["origin:terraform"]
 
   # Cluster VIP to be used with KubeVIP
-  cluster_vip = "10.1.1.1"
+  cluster_vip = "192.168.1.250"
 
   # Node Pools for Cluster
   node_pools = [
@@ -15,56 +15,51 @@ module "edge-example-module" {
     {
       name          = "control-plane"
       control_plane = true
-      nodes = [
-        {
-          uid = "1234"
-          labels = {
-            name = "test1234"
-          }
-        },
-        {
-          uid = "3333"
-          labels = {
-            name = "test3333"
-          }
-        },
-        {
-          uid = "4444"
-          labels = {
-            name = "test4444",
-          }
-        }
-      ]
+      # Edge Host Labels used to find the Edge Host via tags
+      edge_host_tags = {
+        "store" : "903",
+        "type" : "control_plane"
+      }
+      pool_labels = {
+        "region" : "east"
+      }
     },
     # Add additional node pools
     {
       name          = "gpu"
       control_plane = false
-      labels = {
-        type = "gpu"
+      edge_host_tags = {
+        "store" : "903",
+        "type" : "gpu"
       }
-      nodes = [
-        {
-          uid = "7777"
-          labels = {
-            name = "test7777-gpu"
-          }
-        }
-      ]
+      pool_labels = {
+        "type" : "gpu",
+        "region" : "east"
+      }
     }
-
   ]
 
   # Profiles to be added Profile should be an Edge-Native Infra or Full Profile with the OS, Kubernetes Distribution and CNI of choice
   cluster_profiles = [
     {
-      name = "ubuntu-pxke"
-      tag  = "1.24.6"
-    }
+      name    = "ubuntu-k3s"
+      tag     = "1.24.6"
+      context = "tenant"
+    },
+    {
+      name    = "core-edge-services"
+      tag     = "1.0.0"
+      context = "project"
+    },
+    {
+      name    = "kubevirt"
+      tag     = "1.0.0"
+      context = "project"
+    },
   ]
   # Cluster Geolocation (Optional)
   location = {
-    latitude  = 33.776272
-    longitude = -96.796856
+    latitude  = 40.442829
+    longitude = -79.950432
   }
 }
