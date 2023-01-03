@@ -1,18 +1,11 @@
 variable "node_pools" {
-  description = "Values for the attributes of the Control Plane Nodes."
+  description = "Values for the attributes of the Node Pools.  'edge_host_tags' is used to lookup the Edge Host already registered with Palette."
   type = list(object({
-    name          = string
-    labels        = optional(map(string))
-    control_plane = bool
-    nodes = list(object({
-      uid    = string
-      labels = optional(map(string))
-    }))
+    name           = string
+    pool_labels    = optional(map(string))
+    control_plane  = bool
+    edge_host_tags = map(string)
   }))
-}
-variable "node_prefix" {
-  type    = string
-  default = ""
 }
 variable "cluster_tags" {
   type        = list(string)
@@ -24,10 +17,11 @@ variable "name" {
   description = "Name of the cluster to be created."
 }
 variable "cluster_profiles" {
-  description = "Values for the profile(s) to be used for cluster creation."
+  description = "Values for the profile(s) to be used for cluster creation.  For `context` a value of [project tenant system] is expected."
   type = list(object({
-    name = string
-    tag  = optional(string)
+    name    = string
+    tag     = optional(string)
+    context = string # project tenant system
     packs = optional(list(object({
       name   = string
       tag    = string
