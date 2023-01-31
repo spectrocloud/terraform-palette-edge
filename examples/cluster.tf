@@ -1,6 +1,7 @@
 module "edge-demo-module" {
-  source  = "spectrocloud/edge/spectrocloud"
-  version = "1.1.0"
+  # source  = "spectrocloud/edge/spectrocloud"
+  # version = "1.1.0"
+  source = "../"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
@@ -17,7 +18,8 @@ module "edge-demo-module" {
       control_plane = true
       # Edge Host Labels used to find the Edge Host via tags
       edge_host_tags = {
-        "store" : "903",
+        # "store" : "903",
+        "uid" : "12345"
         "type" : "control_plane"
       }
       pool_labels = {
@@ -25,18 +27,18 @@ module "edge-demo-module" {
       }
     },
     # Add additional node pools
-    {
-      name          = "gpu"
-      control_plane = false
-      edge_host_tags = {
-        "store" : "903",
-        "type" : "gpu"
-      }
-      pool_labels = {
-        "type" : "gpu",
-        "region" : "east"
-      }
-    }
+    # {
+    #   name          = "gpu"
+    #   control_plane = false
+    #   edge_host_tags = {
+    #     "store" : "903",
+    #     "type" : "gpu"
+    #   }
+    #   pool_labels = {
+    #     "type" : "gpu",
+    #     "region" : "east"
+    #   }
+    # }
   ]
 
   # Profiles to be added Profile should be an Edge-Native Infra or Full Profile with the OS, Kubernetes Distribution and CNI of choice
