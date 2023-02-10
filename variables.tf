@@ -5,10 +5,7 @@ variable "node_pools" {
     pool_labels    = optional(map(string))
     control_plane  = bool
     edge_host_tags = optional(map(string))
-    nodes = optional(list(object({
-      uid    = string
-      labels = optional(map(string))
-    })))
+    edge_host_uid  = optional(list(string))
   }))
 }
 variable "cluster_tags" {
