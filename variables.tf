@@ -4,7 +4,8 @@ variable "node_pools" {
     name           = string
     pool_labels    = optional(map(string))
     control_plane  = bool
-    edge_host_tags = map(string)
+    edge_host_tags = optional(map(string))
+    edge_host_uid  = optional(list(string))
   }))
 }
 variable "cluster_tags" {

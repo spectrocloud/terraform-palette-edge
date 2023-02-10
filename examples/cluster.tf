@@ -1,6 +1,6 @@
 module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.1.0"
+  version = "1.1.1"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
@@ -17,12 +17,14 @@ module "edge-demo-module" {
       control_plane = true
       # Edge Host Labels used to find the Edge Host via tags
       edge_host_tags = {
-        "store" : "903",
-        "type" : "control_plane"
+        # "store" : "903",
+        # "type" : "control_plane"
       }
       pool_labels = {
         "region" : "east"
       }
+      # Edge Host UID takes priority if set of Edge Host Labels 
+      edge_host_uid = ["edge-b38351ec5eeda37c003148210b330aa3", "edge-d83a7e13ebdd99de453d48210b330b96"]
     },
     # Add additional node pools
     {
@@ -44,10 +46,10 @@ module "edge-demo-module" {
     {
       name    = "ubuntu-k3s"
       tag     = "1.24.6"
-      context = "tenant"
+      context = "project"
     },
     {
-      name    = "core-edge-services"
+      name    = "edge-services"
       tag     = "1.0.0"
       context = "project"
     },
