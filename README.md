@@ -125,6 +125,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_binding_role"></a> [binding\_role](#input\_binding\_role) | Role binding type to be created with the cluster. | `map(string)` | `null` | no |
+| <a name="input_binding_type"></a> [binding\_type](#input\_binding\_type) | Role binding type to be created with the cluster. | `string` | `null` | no |
 | <a name="input_cluster_profiles"></a> [cluster\_profiles](#input\_cluster\_profiles) | Values for the profile(s) to be used for cluster creation.  For `context` a value of [project tenant system] is expected. | <pre>list(object({<br>    name    = string<br>    tag     = optional(string)<br>    context = string # project tenant system<br>    packs = optional(list(object({<br>      name   = string<br>      tag    = string<br>      values = optional(string)<br>      manifest = optional(list(object({<br>        name    = string<br>        tag     = string<br>        content = string<br>      })))<br>    })))<br>  }))</pre> | n/a | yes |
 | <a name="input_cluster_tags"></a> [cluster\_tags](#input\_cluster\_tags) | Tags to be added to the profile.  key:value | `list(string)` | `[]` | no |
 | <a name="input_cluster_vip"></a> [cluster\_vip](#input\_cluster\_vip) | IP Address for Cluster VIP for HA.  Must be unused on on the same layer 2 segment as the node IPs. | `string` | n/a | yes |
@@ -132,6 +134,7 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | Name of the cluster to be created. | `string` | n/a | yes |
 | <a name="input_node_pools"></a> [node\_pools](#input\_node\_pools) | Values for the attributes of the Node Pools.  'edge\_host\_tags' is used to lookup the Edge Host already registered with Palette. | <pre>list(object({<br>    name           = string<br>    pool_labels    = optional(map(string))<br>    control_plane  = bool<br>    edge_host_tags = optional(map(string))<br>    edge_host_uid  = optional(list(string))<br>  }))</pre> | n/a | yes |
 | <a name="input_ntp_servers"></a> [ntp\_servers](#input\_ntp\_servers) | n/a | `list(string)` | `[]` | no |
+| <a name="input_rbac_bindings"></a> [rbac\_bindings](#input\_rbac\_bindings) | RBAC Bindings to be added to the cluster | <pre>list(object({<br>    rbac_type = string<br>    namespace = optional(string)<br>    rbac_role = optional(map(string))<br>    subjects = optional(list(object({<br>      name      = string<br>      rbac_type = string<br>      namespace = string<br>    })))<br>  }))</pre> | `[]` | no |
 | <a name="input_skip_wait_for_completion"></a> [skip\_wait\_for\_completion](#input\_skip\_wait\_for\_completion) | n/a | `bool` | `true` | no |
 | <a name="input_ssh_keys"></a> [ssh\_keys](#input\_ssh\_keys) | n/a | `string` | `""` | no |
 
