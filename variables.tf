@@ -35,6 +35,21 @@ variable "cluster_profiles" {
     })))
   }))
 }
+
+variable "rbac_bindings" {
+  description = "RBAC Bindings to be added to the cluster"
+  type = list(object({
+    rbac_type = string
+    namespace = optional(string)
+    rbac_role = optional(map(string))
+    subjects = optional(list(object({
+      name      = string
+      rbac_type = string
+      namespace = string
+    })))
+  }))
+  default = []
+}
 variable "cluster_vip" {
   type        = string
   description = "IP Address for Cluster VIP for HA.  Must be unused on on the same layer 2 segment as the node IPs."
@@ -61,4 +76,16 @@ variable "location" {
     longitude = 0
   }
   description = "Optional - If used Latitude and Longitude represent the coordinates of the location you wish to assign to the cluster.  https://www.latlong.net/ is one tool that can be used to find this."
+}
+
+variable "binding_type" {
+  type        = string
+  description = "Role binding type to be created with the cluster."
+  default     = null
+}
+
+variable "binding_role" {
+  type        = map(string)
+  description = "Role binding type to be created with the cluster."
+  default     = null
 }

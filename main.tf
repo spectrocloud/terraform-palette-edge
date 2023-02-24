@@ -48,4 +48,23 @@ resource "spectrocloud_cluster_edge_native" "this" {
     }
 
   }
+
+  dynamic "cluster_rbac_binding" {
+    for_each = var.rbac_bindings
+    content {
+      type      = cluster_rbac_binding.value.rbac_type
+      namespace = cluster_rbac_binding.value.namespace
+      role      = cluster_rbac_binding.value.rbac_role
+
+      dynamic "subjects" {
+        for_each = cluster_rbac_binding.value.subjects
+        content {
+          name      = subjects.value.name
+          type      = subjects.value.rbac_type
+          namespace = subjects.value.namespace
+        }
+      }
+    }
+  }
+
 }

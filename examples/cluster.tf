@@ -1,6 +1,6 @@
 module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.1.1"
+  version = "1.1.2"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
@@ -39,6 +39,7 @@ module "edge-demo-module" {
         "region" : "east"
       }
     }
+
   ]
 
   # Profiles to be added Profile should be an Edge-Native Infra or Full Profile with the OS, Kubernetes Distribution and CNI of choice
@@ -64,4 +65,20 @@ module "edge-demo-module" {
     latitude  = 40.442829
     longitude = -79.950432
   }
+  rbac_bindings = [
+    {
+      rbac_type = "ClusterRoleBinding"
+      rbac_role = {
+        name = "cluster-admin"
+        kind = "ClusterRole"
+      }
+      subjects = [
+        {
+          name      = "k8s-admin"
+          rbac_type = "Group"
+        }
+      ]
+    }
+  ]
+
 }
