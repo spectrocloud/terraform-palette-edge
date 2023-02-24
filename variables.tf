@@ -45,7 +45,7 @@ variable "rbac_bindings" {
     subjects = optional(list(object({
       name      = string
       rbac_type = string
-      namespace = string
+      namespace = optional(string)
     })))
   }))
   default = []
