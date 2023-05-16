@@ -1,11 +1,20 @@
-variable "node_pools" {
+variable "machine_pools" {
   description = "Values for the attributes of the Node Pools.  'edge_host_tags' is used to lookup the Edge Host already registered with Palette."
   type = list(object({
-    name           = string
-    pool_labels    = optional(map(string))
-    control_plane  = bool
-    edge_host_tags = optional(map(string))
-    edge_host_uid  = optional(list(string))
+    name                    = string
+    additional_labels       = optional(map(string))
+    control_plane           = optional(bool)
+    control_plane_as_worker = optional(bool)
+    taints = optional(list(object({
+      effect = string
+      key    = string
+      value  = string
+    })))
+    edge_host = list(object({
+      host_uid  = string
+      static_ip = optional(string)
+
+    }))
   }))
 }
 variable "cluster_tags" {

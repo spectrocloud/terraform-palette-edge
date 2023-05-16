@@ -6,10 +6,6 @@ data "spectrocloud_cluster_profile" "this" {
   version = each.value["tag"]
   context = each.value["context"]
 }
-data "spectrocloud_appliances" "this" {
-  for_each = { for pool in var.node_pools : pool.name => pool }
-  tags     = each.value["edge_host_tags"]
-}
 resource "spectrocloud_cluster_edge_native" "this" {
   name            = var.name
   tags            = var.cluster_tags
@@ -24,13 +20,31 @@ resource "spectrocloud_cluster_edge_native" "this" {
     longitude = var.location.longitude
   }
   dynamic "machine_pool" {
-    for_each = var.node_pools
+    for_each = var.machine_pools
     content {
       name                    = machine_pool.value.name
       control_plane           = machine_pool.value.control_plane
-      control_plane_as_worker = machine_pool.value.control_plane == true ? true : false
-      additional_labels       = machine_pool.value.pool_labels
-      host_uids               = machine_pool.value.edge_host_uid != null ? machine_pool.value.edge_host_uid : data.spectrocloud_appliances.this[machine_pool.value.name].ids
+      control_plane_as_worker = machine_pool.value.control_plane_as_worker
+      additional_labels       = machine_pool.value.additional_labels
+
+      dynamic "taints" {
+        for_each = machine_pool.value.taints != null ? machine_pool.value.taints : []
+
+        content {
+          effect = taints.value.effect
+          key    = tainst.value.key
+          value  = taints.value.value
+        }
+      }
+
+      dynamic "edge_host" {
+        for_each = machine_pool.value.edge_host
+        content {
+          host_uid  = edge_host.value.host_uid
+          static_ip = edge_host.value.static_ip
+        }
+      }
+      # edge_host               = machine_pool.value.edge_host != null ? machine_pool.value.edge_host : data.spectrocloud_appliances.this[machine_pool.value.name].ids        
     }
   }
   dynamic "cluster_profile" {
