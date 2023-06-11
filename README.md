@@ -101,13 +101,13 @@ module "edge-demo-module" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | = 0.13.2 |
+| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | >= 0.14.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | = 0.13.2 |
+| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | >= 0.14.0 |
 
 ## Modules
 
@@ -117,8 +117,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [spectrocloud_cluster_edge_native.this](https://registry.terraform.io/providers/spectrocloud/spectrocloud/0.13.2/docs/resources/cluster_edge_native) | resource |
-| [spectrocloud_cluster_profile.this](https://registry.terraform.io/providers/spectrocloud/spectrocloud/0.13.2/docs/data-sources/cluster_profile) | data source |
+| [spectrocloud_cluster_edge_native.this](https://registry.terraform.io/providers/spectrocloud/spectrocloud/latest/docs/resources/cluster_edge_native) | resource |
+| [spectrocloud_cluster_profile.this](https://registry.terraform.io/providers/spectrocloud/spectrocloud/latest/docs/data-sources/cluster_profile) | data source |
 
 ## Inputs
 

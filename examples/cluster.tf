@@ -1,14 +1,13 @@
 module "edge-demo-module" {
-  # source  = "spectrocloud/edge/spectrocloud"
-  # version = "1.1.2"
-  source = "../"
+  source  = "spectrocloud/edge/spectrocloud"
+  version = "1.2.0"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
   cluster_tags = ["origin:terraform"]
 
   # Cluster VIP to be used with KubeVIP
-  cluster_vip = "192.168.1.250"
+  cluster_vip = "10.100.100.32"
 
   # Node Pools for Cluster
   machine_pools = [
@@ -22,8 +21,8 @@ module "edge-demo-module" {
       }
       edge_host = [
         {
-          host_uid  = "test123"
-          static_ip = "1.1.1.1"
+          host_uid  = "edge-d83a7e13ebdd99de453d48210b330b96"
+          static_ip = "10.100.100.31"
         }
       ]
     },
@@ -53,16 +52,16 @@ module "edge-demo-module" {
       tag     = "1.24.6"
       context = "project"
     },
-    # {
-    #   name    = "edge-services"
-    #   tag     = "1.0.0"
-    #   context = "project"
-    # },
-    # {
-    #   name    = "kubevirt"
-    #   tag     = "1.0.0"
-    #   context = "project"
-    # },
+    {
+      name    = "edge-services"
+      tag     = "1.0.0"
+      context = "project"
+    },
+    {
+      name    = "kubevirt"
+      tag     = "1.0.0"
+      context = "project"
+    },
   ]
   # Cluster Geolocation (Optional)
   location = {
