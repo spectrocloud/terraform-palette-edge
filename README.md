@@ -101,13 +101,13 @@ module "edge-demo-module" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | = 0.11.0 |
+| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | >= 0.14.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | = 0.11.0 |
+| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | >= 0.14.0 |
 
 ## Modules
 
@@ -117,9 +117,8 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [spectrocloud_cluster_edge_native.this](https://registry.terraform.io/providers/spectrocloud/spectrocloud/0.11.0/docs/resources/cluster_edge_native) | resource |
-| [spectrocloud_appliances.this](https://registry.terraform.io/providers/spectrocloud/spectrocloud/0.11.0/docs/data-sources/appliances) | data source |
-| [spectrocloud_cluster_profile.this](https://registry.terraform.io/providers/spectrocloud/spectrocloud/0.11.0/docs/data-sources/cluster_profile) | data source |
+| [spectrocloud_cluster_edge_native.this](https://registry.terraform.io/providers/spectrocloud/spectrocloud/latest/docs/resources/cluster_edge_native) | resource |
+| [spectrocloud_cluster_profile.this](https://registry.terraform.io/providers/spectrocloud/spectrocloud/latest/docs/data-sources/cluster_profile) | data source |
 
 ## Inputs
 
@@ -131,8 +130,8 @@ No modules.
 | <a name="input_cluster_tags"></a> [cluster\_tags](#input\_cluster\_tags) | Tags to be added to the profile.  key:value | `list(string)` | `[]` | no |
 | <a name="input_cluster_vip"></a> [cluster\_vip](#input\_cluster\_vip) | IP Address for Cluster VIP for HA.  Must be unused on on the same layer 2 segment as the node IPs. | `string` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | Optional - If used Latitude and Longitude represent the coordinates of the location you wish to assign to the cluster.  https://www.latlong.net/ is one tool that can be used to find this. | <pre>object({<br>    latitude  = optional(number)<br>    longitude = optional(number)<br>  })</pre> | <pre>{<br>  "latitude": 0,<br>  "longitude": 0<br>}</pre> | no |
+| <a name="input_machine_pools"></a> [machine\_pools](#input\_machine\_pools) | Values for the attributes of the Node Pools.  'edge\_host\_tags' is used to lookup the Edge Host already registered with Palette. | <pre>list(object({<br>    name                    = string<br>    additional_labels       = optional(map(string))<br>    control_plane           = optional(bool)<br>    control_plane_as_worker = optional(bool)<br>    taints = optional(list(object({<br>      effect = string<br>      key    = string<br>      value  = string<br>    })))<br>    edge_host = list(object({<br>      host_uid  = string<br>      static_ip = optional(string)<br><br>    }))<br>  }))</pre> | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the cluster to be created. | `string` | n/a | yes |
-| <a name="input_node_pools"></a> [node\_pools](#input\_node\_pools) | Values for the attributes of the Node Pools.  'edge\_host\_tags' is used to lookup the Edge Host already registered with Palette. | <pre>list(object({<br>    name           = string<br>    pool_labels    = optional(map(string))<br>    control_plane  = bool<br>    edge_host_tags = optional(map(string))<br>    edge_host_uid  = optional(list(string))<br>  }))</pre> | n/a | yes |
 | <a name="input_ntp_servers"></a> [ntp\_servers](#input\_ntp\_servers) | n/a | `list(string)` | `[]` | no |
 | <a name="input_rbac_bindings"></a> [rbac\_bindings](#input\_rbac\_bindings) | RBAC Bindings to be added to the cluster | <pre>list(object({<br>    rbac_type = string<br>    namespace = optional(string)<br>    rbac_role = optional(map(string))<br>    subjects = optional(list(object({<br>      name      = string<br>      rbac_type = string<br>      namespace = optional(string)<br>    })))<br>  }))</pre> | `[]` | no |
 | <a name="input_skip_wait_for_completion"></a> [skip\_wait\_for\_completion](#input\_skip\_wait\_for\_completion) | n/a | `bool` | `true` | no |
