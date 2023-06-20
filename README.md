@@ -30,60 +30,66 @@ Additionally, with the "VIP" tag, we enable Kubevip for HA.  The Edge Host is no
 ```
 module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.1.0"
+  version = "1.2.0"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
   cluster_tags = ["origin:terraform"]
 
   # Cluster VIP to be used with KubeVIP
-  cluster_vip = "192.168.1.250"
+  cluster_vip = "10.100.100.32"
 
   # Node Pools for Cluster
-  node_pools = [
+  machine_pools = [
     # Control Plane Node Pool
     {
-      name          = "control-plane"
-      control_plane = true
-      # Edge Host Labels used to find the Edge Host via tags
-      edge_host_tags = {
-        "store": "903",
-        "type": "control_plane"
+      name                    = "control-plane"
+      control_plane           = true
+      control_plane_as_worker = false
+      additional_labels = {
+        "region" : "east"
       }
-      pool_labels = {
-        "region": "east"
-      }
+      edge_host = [
+        {
+          host_uid  = "host-1"
+          static_ip = "11.1.1.1"
+        }
+      ]
     },
-        # Add additional node pools
+    # Add additional node pools
     {
       name          = "gpu"
       control_plane = false
-      edge_host_tags = {
-        "store": "903",
-        "type": "gpu"
-      }
-      pool_labels = {
-        "type": "gpu",
-        "region": "east"
+      edge_host = [
+
+        {
+          host_uid  = "host-2"
+          static_ip = "2.2.2.2"
         }
+      ]
+      additional_labels = {
+        "type" : "gpu",
+        "region" : "east"
+      }
     }
+
   ]
 
   # Profiles to be added Profile should be an Edge-Native Infra or Full Profile with the OS, Kubernetes Distribution and CNI of choice
   cluster_profiles = [
     {
-      name = "ubuntu-k3s"
-      tag  = "1.24.6"
-      context = "tenant"
-    },
-    {
-      name = "core-edge-services"
-      tag = "1.0.0"
+      name    = "ubuntu-k3s"
+      tag     = "1.24.6"
       context = "project"
     },
     {
-      name = "kubevirt"
-      tag = "1.0.0"
+      name    = "edge-services"
+      tag     = "1.0.0"
+      context = "project"
+    },
+    {
+      name    = "kubevirt"
+      tag     = "1.0.0"
       context = "project"
     },
   ]
@@ -92,7 +98,24 @@ module "edge-demo-module" {
     latitude  = 40.442829
     longitude = -79.950432
   }
+  rbac_bindings = [
+    {
+      rbac_type = "ClusterRoleBinding"
+      rbac_role = {
+        name = "cluster-admin"
+        kind = "ClusterRole"
+      }
+      subjects = [
+        {
+          name      = "k8s-admin"
+          rbac_type = "Group"
+        }
+      ]
+    }
+  ]
+
 }
+
 ```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
