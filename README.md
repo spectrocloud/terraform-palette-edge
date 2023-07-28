@@ -51,8 +51,8 @@ module "edge-demo-module" {
       }
       edge_host = [
         {
-          host_uid  = "host-1"
-          static_ip = "11.1.1.1"
+          host_uid  = "edge-d83a7e13ebdd99de453d48210b330b96"
+          static_ip = "10.100.100.31"
         }
       ]
     },
@@ -63,7 +63,7 @@ module "edge-demo-module" {
       edge_host = [
 
         {
-          host_uid  = "host-2"
+          host_uid  = "123test"
           static_ip = "2.2.2.2"
         }
       ]
