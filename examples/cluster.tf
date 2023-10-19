@@ -1,10 +1,17 @@
 module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.2.0"
+  version = "1.2.1"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
   cluster_tags = ["origin:terraform"]
+  ssh_keys = [
+    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbm test2",
+  "ecdsa-sha2-nistp256 AAAAE2VjZHNhL test1"]
+  ntp_servers = [
+    "10.10.10.1",
+    "10.10.10.2"
+  ]
 
   # Cluster VIP to be used with KubeVIP
   cluster_vip = "10.100.100.32"
@@ -26,7 +33,7 @@ module "edge-demo-module" {
         }
       ]
     },
-    # Add additional node pools
+    # # Add additional node pools
     {
       name          = "gpu"
       control_plane = false
@@ -48,8 +55,8 @@ module "edge-demo-module" {
   # Profiles to be added Profile should be an Edge-Native Infra or Full Profile with the OS, Kubernetes Distribution and CNI of choice
   cluster_profiles = [
     {
-      name    = "ubuntu-k3s"
-      tag     = "1.24.6"
+      name    = "edge-profile"
+      tag     = "1.27.2"
       context = "project"
     },
     {
