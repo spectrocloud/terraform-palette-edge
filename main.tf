@@ -11,7 +11,7 @@ resource "spectrocloud_cluster_edge_native" "this" {
   tags            = var.cluster_tags
   skip_completion = var.skip_wait_for_completion
   cloud_config {
-    ssh_key     = var.ssh_keys
+    ssh_keys    = var.ssh_keys
     vip         = var.cluster_vip
     ntp_servers = var.ntp_servers
   }
