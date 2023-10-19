@@ -158,7 +158,7 @@ No modules.
 | <a name="input_ntp_servers"></a> [ntp\_servers](#input\_ntp\_servers) | n/a | `list(string)` | `[]` | no |
 | <a name="input_rbac_bindings"></a> [rbac\_bindings](#input\_rbac\_bindings) | RBAC Bindings to be added to the cluster | <pre>list(object({<br>    rbac_type = string<br>    namespace = optional(string)<br>    rbac_role = optional(map(string))<br>    subjects = optional(list(object({<br>      name      = string<br>      rbac_type = string<br>      namespace = optional(string)<br>    })))<br>  }))</pre> | `[]` | no |
 | <a name="input_skip_wait_for_completion"></a> [skip\_wait\_for\_completion](#input\_skip\_wait\_for\_completion) | n/a | `bool` | `true` | no |
-| <a name="input_ssh_keys"></a> [ssh\_keys](#input\_ssh\_keys) | n/a | `string` | `""` | no |
+| <a name="input_ssh_keys"></a> [ssh\_keys](#input\_ssh\_keys) | n/a | `list(string)` | `[]` | no |
 
 ## Outputs
 

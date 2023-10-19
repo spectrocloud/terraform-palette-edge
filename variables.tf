@@ -64,8 +64,8 @@ variable "cluster_vip" {
   description = "IP Address for Cluster VIP for HA.  Must be unused on on the same layer 2 segment as the node IPs."
 }
 variable "ssh_keys" {
-  type    = string
-  default = ""
+  type    = list(string)
+  default = []
 }
 variable "ntp_servers" {
   type    = list(string)
