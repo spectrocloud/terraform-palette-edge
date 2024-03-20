@@ -62,6 +62,12 @@ variable "rbac_bindings" {
 variable "cluster_vip" {
   type        = string
   description = "IP Address for Cluster VIP for HA.  Must be unused on on the same layer 2 segment as the node IPs."
+  default     = ""
+}
+variable "overlay_cidr_range" {
+  type        = string
+  description = "CIDR range for the overlay network."
+  default     = ""
 }
 variable "ssh_keys" {
   type    = list(string)
@@ -87,14 +93,14 @@ variable "location" {
   description = "Optional - If used Latitude and Longitude represent the coordinates of the location you wish to assign to the cluster.  https://www.latlong.net/ is one tool that can be used to find this."
 }
 
-variable "binding_type" {
-  type        = string
-  description = "Role binding type to be created with the cluster."
-  default     = null
-}
+# variable "binding_type" {
+#   type        = string
+#   description = "Role binding type to be created with the cluster."
+#   default     = null
+# }
 
-variable "binding_role" {
-  type        = map(string)
-  description = "Role binding type to be created with the cluster."
-  default     = null
-}
+# variable "binding_role" {
+#   type        = map(string)
+#   description = "Role binding type to be created with the cluster."
+#   default     = null
+# }

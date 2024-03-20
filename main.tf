@@ -11,9 +11,10 @@ resource "spectrocloud_cluster_edge_native" "this" {
   tags            = var.cluster_tags
   skip_completion = var.skip_wait_for_completion
   cloud_config {
-    ssh_keys    = var.ssh_keys
-    vip         = var.cluster_vip
-    ntp_servers = var.ntp_servers
+    ssh_keys           = var.ssh_keys
+    vip                = var.cluster_vip
+    overlay_cidr_range = var.overlay_cidr_range
+    ntp_servers        = var.ntp_servers
   }
   location_config {
     latitude  = var.location.latitude
