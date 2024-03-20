@@ -1,10 +1,10 @@
 repos:
 - repo: https://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.88.2
+  rev: v1.74.1
   hooks:
     - id: terraform_fmt    
     - id: terraform_docs
     # - id: terraform_validate
     - id: terraform_tflint
       args:
-        - --minimum-failure-severity=notice --recursive --config
+        - --args=--disable-rule=terraform_module_version

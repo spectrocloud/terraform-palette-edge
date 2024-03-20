@@ -1,6 +1,6 @@
 module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.2.1"
+  version = "1.3.1"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
@@ -13,8 +13,11 @@ module "edge-demo-module" {
     "10.10.10.2"
   ]
 
-  # Cluster VIP to be used with KubeVIP
+  # Cluster VIP to be used with KubeVIP 
   cluster_vip = "10.100.100.32"
+
+  # Overlay CIDR Range
+  # overlay_cidr_range = "100.64.128.0/18"
 
   # Node Pools for Cluster
   machine_pools = [
