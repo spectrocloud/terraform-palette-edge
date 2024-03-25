@@ -14,10 +14,10 @@ module "edge-demo-module" {
   ]
 
   # Cluster VIP to be used with KubeVIP If not using Overlay
-  # cluster_vip = "10.100.100.32"
+  # cluster_vip = "10.10.100.5"
 
   # Overlay CIDR Range
-  overlay_cidr_range = "100.64.128.1/18"
+  overlay_cidr_range = "100.64.128.0/18"
 
   # Node Pools for Cluster
   machine_pools = [

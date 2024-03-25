@@ -44,10 +44,10 @@ module "edge-demo-module" {
   ]
 
   # Cluster VIP to be used with KubeVIP If not using Overlay
-  # cluster_vip = "10.100.100.32"
+  # cluster_vip = "10.10.100.5"
 
   # Overlay CIDR Range
-  overlay_cidr_range = "100.64.128.1/18"
+  overlay_cidr_range = "100.64.128.0/18"
 
   # Node Pools for Cluster
   machine_pools = [
@@ -125,6 +125,7 @@ module "edge-demo-module" {
   ]
 
 }
+
 ```
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -132,13 +133,13 @@ module "edge-demo-module" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | >= 0.17.4 |
+| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | >= 0.16.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | >= 0.17.4 |
+| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | >= 0.16.1 |
 
 ## Modules
 
