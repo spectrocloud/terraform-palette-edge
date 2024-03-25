@@ -30,7 +30,7 @@ Additionally, with the "VIP" tag, we enable Kubevip for HA.  The Edge Host is no
 ```
 module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.3.1"
+  version = "1.3.2"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
@@ -43,12 +43,12 @@ module "edge-demo-module" {
     "10.10.10.2"
   ]
 
-  # Cluster VIP to be used with KubeVIP
-  cluster_vip = "10.100.100.32"
+  # Cluster VIP to be used with KubeVIP If not using Overlay
+  # cluster_vip = "10.100.100.32"
 
   # Overlay CIDR Range
-  # overlay_cidr_range = "100.64.128.0/18"
-  
+  overlay_cidr_range = "100.64.128.1/18"
+
   # Node Pools for Cluster
   machine_pools = [
     # Control Plane Node Pool
@@ -61,12 +61,12 @@ module "edge-demo-module" {
       }
       edge_host = [
         {
-          host_uid  = "edge-d83a7e13ebdd99de453d48210b330b96"
+          host_uid  = "edge12345"
           static_ip = "10.100.100.31"
         }
       ]
     },
-    # # Add additional node pools
+    # Add additional node pools
     {
       name          = "gpu"
       control_plane = false
@@ -89,7 +89,7 @@ module "edge-demo-module" {
   cluster_profiles = [
     {
       name    = "edge-profile"
-      tag     = "1.27.2"
+      tag     = "1.27.7"
       context = "project"
     },
     {
@@ -98,10 +98,10 @@ module "edge-demo-module" {
       context = "project"
     },
     {
-      name    = "kubevirt"
+      name    = "edge-logging"
       tag     = "1.0.0"
       context = "project"
-    },
+    }
   ]
   # Cluster Geolocation (Optional)
   location = {
@@ -125,23 +125,20 @@ module "edge-demo-module" {
   ]
 
 }
-
-
 ```
-
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | >= 0.15.5 |
+| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | >= 0.17.4 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | >= 0.15.5 |
+| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | >= 0.17.4 |
 
 ## Modules
 

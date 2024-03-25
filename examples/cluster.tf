@@ -1,6 +1,6 @@
 module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.3.1"
+  version = "1.3.2"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
@@ -13,11 +13,11 @@ module "edge-demo-module" {
     "10.10.10.2"
   ]
 
-  # Cluster VIP to be used with KubeVIP 
-  cluster_vip = "10.100.100.32"
+  # Cluster VIP to be used with KubeVIP If not using Overlay
+  # cluster_vip = "10.100.100.32"
 
   # Overlay CIDR Range
-  # overlay_cidr_range = "100.64.128.0/18"
+  overlay_cidr_range = "100.64.128.1/18"
 
   # Node Pools for Cluster
   machine_pools = [
@@ -31,12 +31,12 @@ module "edge-demo-module" {
       }
       edge_host = [
         {
-          host_uid  = "edge-d83a7e13ebdd99de453d48210b330b96"
+          host_uid  = "edge12345"
           static_ip = "10.100.100.31"
         }
       ]
     },
-    # # Add additional node pools
+    # Add additional node pools
     {
       name          = "gpu"
       control_plane = false
@@ -59,7 +59,7 @@ module "edge-demo-module" {
   cluster_profiles = [
     {
       name    = "edge-profile"
-      tag     = "1.27.2"
+      tag     = "1.27.7"
       context = "project"
     },
     {
@@ -68,10 +68,10 @@ module "edge-demo-module" {
       context = "project"
     },
     {
-      name    = "kubevirt"
+      name    = "edge-logging"
       tag     = "1.0.0"
       context = "project"
-    },
+    }
   ]
   # Cluster Geolocation (Optional)
   location = {

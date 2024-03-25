@@ -6,14 +6,17 @@ data "spectrocloud_cluster_profile" "this" {
   version = each.value["tag"]
   context = each.value["context"]
 }
+
 resource "spectrocloud_cluster_edge_native" "this" {
   name            = var.name
   tags            = var.cluster_tags
   skip_completion = var.skip_wait_for_completion
+
   cloud_config {
+
     ssh_keys           = var.ssh_keys
-    vip                = var.cluster_vip
-    overlay_cidr_range = var.overlay_cidr_range
+    vip                = var.cluster_vip != "" ? var.cluster_vip : null
+    overlay_cidr_range = var.overlay_cidr_range != "" ? var.overlay_cidr_range : null
     ntp_servers        = var.ntp_servers
   }
   location_config {

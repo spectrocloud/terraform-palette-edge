@@ -63,11 +63,19 @@ variable "cluster_vip" {
   type        = string
   description = "IP Address for Cluster VIP for HA.  Must be unused on on the same layer 2 segment as the node IPs."
   default     = ""
+  validation {
+    condition     = var.cluster_vip == "" || can(regex("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$", var.cluster_vip))
+    error_message = "Cluster VIP must be a valid IP address."
+  }
 }
 variable "overlay_cidr_range" {
   type        = string
   description = "CIDR range for the overlay network."
   default     = ""
+  validation {
+    condition     = var.overlay_cidr_range == "" || can(regex("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}/[0-9]{1,2}$", var.overlay_cidr_range))
+    error_message = "Overlay CIDR range must be a valid CIDR range."
+  }
 }
 variable "ssh_keys" {
   type    = list(string)
