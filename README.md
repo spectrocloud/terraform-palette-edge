@@ -30,7 +30,7 @@ Additionally, with the "VIP" tag, we enable Kubevip for HA.  The Edge Host is no
 ```
 module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.3.2"
+  version = "1.4.0"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
@@ -172,5 +172,8 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_admin_kube_config"></a> [admin\_kube\_config](#output\_admin\_kube\_config) | n/a |
+| <a name="output_id"></a> [id](#output\_id) | n/a |
 | <a name="output_kubeconfig"></a> [kubeconfig](#output\_kubeconfig) | n/a |
+| <a name="output_name"></a> [name](#output\_name) | n/a |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
