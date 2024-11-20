@@ -44,11 +44,17 @@ resource "spectrocloud_cluster_edge_native" "this" {
       dynamic "edge_host" {
         for_each = machine_pool.value.edge_host
         content {
-          host_uid  = edge_host.value.host_uid
-          static_ip = edge_host.value.static_ip
+          host_uid        = edge_host.value.host_uid
+          host_name       = edge_host.value.host_name
+          nic_name        = edge_host.value.nic_name
+          static_ip       = edge_host.value.static_ip
+          subnet_mask     = edge_host.value.subnet_mask
+          default_gateway = edge_host.value.default_gateway
+          dns_servers     = edge_host.value.dns_servers
+          two_node_role   = edge_host.value.two_node_role
+
         }
       }
-      # edge_host               = machine_pool.value.edge_host != null ? machine_pool.value.edge_host : data.spectrocloud_appliances.this[machine_pool.value.name].ids        
     }
   }
   dynamic "cluster_profile" {

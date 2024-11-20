@@ -27,10 +27,10 @@ Additionally, with the "VIP" tag, we enable Kubevip for HA.  The Edge Host is no
 | --------|--------- |
 ![QRCode](images/qrcode.png) | ![UID Copy](images/uid_copy.png)
 
-```
+```tf
 module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.4.0"
+  version = "1.5.0"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
@@ -62,7 +62,22 @@ module "edge-demo-module" {
       edge_host = [
         {
           host_uid  = "edge12345"
+          host_name = "edge1"
           static_ip = "10.100.100.31"
+          subnet_mask = "255.255.255.0"
+          default_gateway = "10.100.100.1"
+          dns_servers = ["10.100.100.1","10.100.100.2"]
+
+        },
+                {
+          host_uid  = "edge123456"
+          host_name = "edge2"
+          static_ip = "10.100.100.32"
+          subnet_mask = "255.255.255.0"
+          default_gateway = "10.100.100.1"
+          dns_servers = ["10.100.100.1","10.100.100.2"]
+          nic_name = "auto"
+
         }
       ]
     },
@@ -89,7 +104,7 @@ module "edge-demo-module" {
   cluster_profiles = [
     {
       name    = "edge-profile"
-      tag     = "1.27.7"
+      tag     = "1.30.5-ubuntu"
       context = "project"
     },
     {
@@ -126,6 +141,7 @@ module "edge-demo-module" {
 
 }
 
+
 ```
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -133,13 +149,13 @@ module "edge-demo-module" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | >= 0.17.4 |
+| <a name="requirement_spectrocloud"></a> [spectrocloud](#requirement\_spectrocloud) | >= 0.22.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | >= 0.17.4 |
+| <a name="provider_spectrocloud"></a> [spectrocloud](#provider\_spectrocloud) | 0.22.0 |
 
 ## Modules
 
@@ -160,7 +176,7 @@ No modules.
 | <a name="input_cluster_tags"></a> [cluster\_tags](#input\_cluster\_tags) | Tags to be added to the profile.  key:value | `list(string)` | `[]` | no |
 | <a name="input_cluster_vip"></a> [cluster\_vip](#input\_cluster\_vip) | IP Address for Cluster VIP for HA.  Must be unused on on the same layer 2 segment as the node IPs. | `string` | `""` | no |
 | <a name="input_location"></a> [location](#input\_location) | Optional - If used Latitude and Longitude represent the coordinates of the location you wish to assign to the cluster.  https://www.latlong.net/ is one tool that can be used to find this. | <pre>object({<br>    latitude  = optional(number)<br>    longitude = optional(number)<br>  })</pre> | <pre>{<br>  "latitude": 0,<br>  "longitude": 0<br>}</pre> | no |
-| <a name="input_machine_pools"></a> [machine\_pools](#input\_machine\_pools) | Values for the attributes of the Node Pools.  'edge\_host\_tags' is used to lookup the Edge Host already registered with Palette. | <pre>list(object({<br>    name                    = string<br>    additional_labels       = optional(map(string))<br>    control_plane           = optional(bool)<br>    control_plane_as_worker = optional(bool)<br>    taints = optional(list(object({<br>      effect = string<br>      key    = string<br>      value  = string<br>    })))<br>    edge_host = list(object({<br>      host_uid  = string<br>      static_ip = optional(string)<br><br>    }))<br>  }))</pre> | n/a | yes |
+| <a name="input_machine_pools"></a> [machine\_pools](#input\_machine\_pools) | Values for the attributes of the Node Pools. 'edge\_host\_tags' is used to lookup the Edge Host already registered with Palette. | <pre>list(object({<br>    name                    = string<br>    additional_labels       = optional(map(string))<br>    control_plane           = optional(bool)<br>    control_plane_as_worker = optional(bool)<br>    taints = optional(list(object({<br>      effect = string<br>      key    = string<br>      value  = string<br>    })))<br>    edge_host = list(object({<br>      host_uid        = string<br>      host_name       = optional(string)<br>      nic_name        = optional(string)<br>      static_ip       = optional(string)<br>      subnet_mask     = optional(string)<br>      default_gateway = optional(string)<br>      dns_servers     = optional(list(string))<br>      two_node_role   = optional(string)<br>    }))<br>  }))</pre> | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name of the cluster to be created. | `string` | n/a | yes |
 | <a name="input_ntp_servers"></a> [ntp\_servers](#input\_ntp\_servers) | n/a | `list(string)` | `[]` | no |
 | <a name="input_overlay_cidr_range"></a> [overlay\_cidr\_range](#input\_overlay\_cidr\_range) | CIDR range for the overlay network. | `string` | `""` | no |
