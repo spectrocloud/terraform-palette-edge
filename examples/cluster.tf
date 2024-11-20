@@ -1,6 +1,6 @@
 module "edge-demo-module" {
   source  = "spectrocloud/edge/spectrocloud"
-  version = "1.4.0"
+  version = "1.5.0"
   # Store Number/Location
   name = "demo"
   # add tags to the cluster (optional) list(strings)
@@ -31,8 +31,23 @@ module "edge-demo-module" {
       }
       edge_host = [
         {
-          host_uid  = "edge12345"
-          static_ip = "10.100.100.31"
+          host_uid        = "edge12345"
+          host_name       = "edge1"
+          static_ip       = "10.100.100.31"
+          subnet_mask     = "255.255.255.0"
+          default_gateway = "10.100.100.1"
+          dns_servers     = ["10.100.100.1", "10.100.100.2"]
+
+        },
+        {
+          host_uid        = "edge123456"
+          host_name       = "edge2"
+          static_ip       = "10.100.100.32"
+          subnet_mask     = "255.255.255.0"
+          default_gateway = "10.100.100.1"
+          dns_servers     = ["10.100.100.1", "10.100.100.2"]
+          nic_name        = "auto"
+
         }
       ]
     },
@@ -59,7 +74,7 @@ module "edge-demo-module" {
   cluster_profiles = [
     {
       name    = "edge-profile"
-      tag     = "1.27.7"
+      tag     = "1.30.5-ubuntu"
       context = "project"
     },
     {
